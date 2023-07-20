@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import FileUploadIcon from "../../assets/images/fileuploadicon.png";
 import React from "react";
 import * as restaurantService from "../../services/restaurantService";
+import * as menuService from "../../services/menuService";
 import {
   Button,
   Dialog,
@@ -33,6 +34,7 @@ export default function RestaurantUploadLogo(props) {
     setIsDisabled(true);
   };
   
+  const [imageDimensions, setImageDimensions] = React.useState({width: 0, height: 0});
   const { acceptedFiles, getRootProps, getInputProps, onError, open } =
     useDropzone({
       maxFiles: 1,
@@ -58,15 +60,31 @@ export default function RestaurantUploadLogo(props) {
             });
           });
         } else if (acceptedFiles.length > 0) {
+          const file = acceptedFiles[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          setImageDimensions({ width: img.width, height: img.height });
+        };
+        img.src = event.target.result;
+      };
+  
+      reader.readAsDataURL(file);
           setErrors("");
-          setIsDisabled(false);
         }
       },
     });
   const files = acceptedFiles.map((file) => (
     <li key={file.path}>{file.path}</li>
   ));
+
+  
   const uploadRestaurantLogo = () => {
+    const imagePromise = acceptedFiles.length ? menuService.resizeImage(acceptedFiles[0], imageDimensions.width, imageDimensions.height) : null;
+    let result = null;
+    //const resizedImage = await imagePromise;
+    result = menuService.addMenuItem(menuItm, imagePromise);
     setLoadingIconState(true);
     let promise = restaurantService.uploadRestuarantLogo(acceptedFiles[0]);
     promise.then((url) => {
