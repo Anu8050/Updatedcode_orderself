@@ -81,12 +81,9 @@ export default function RestaurantUploadLogo(props) {
 
   
   const uploadRestaurantLogo = () => {
-    const imagePromise = acceptedFiles.length ? menuService.resizeImage(acceptedFiles[0], imageDimensions.width, imageDimensions.height) : null;
-    let result = null;
-    //const resizedImage = await imagePromise;
-    result = menuService.addMenuItem(menuItm, imagePromise);
+    const imagePromise = menuService.resizeImage(acceptedFiles[0], imageDimensions.width, imageDimensions.height);
     setLoadingIconState(true);
-    let promise = restaurantService.uploadRestuarantLogo(acceptedFiles[0]);
+    let promise = restaurantService.uploadRestuarantLogo(imagePromise);
     promise.then((url) => {
       setLoadingIconState(false);
       setRestaurantLogoUrl(url);
