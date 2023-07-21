@@ -6,7 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import {
   Box,
   Button,
-  Grid,
+  Grid, TextField, Popover, 
   Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Typography
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
@@ -39,6 +39,8 @@ const ManageMenuItems = () => {
   const [foodCategory, setFoodCategory] = React.useState([]);
 
   const [loading, setLoadingIconState] = React.useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedRowData, setSelectedRowData] = useState(null)
 
   function CustomNoRowsOverlay(message) {
     return (
@@ -171,6 +173,23 @@ const ManageMenuItems = () => {
     setOpen(false);
   }
 
+  const editedRowData = () =>
+  {
+    alert('hi');
+  }
+
+  // const handleRowClick = (params) => {
+  //   setSelectedRow(params.row);
+  // };
+  const handleRowClick = (params, event) => {
+    setSelectedRowData(params.row);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setSelectedRowData(null);
+  };
+
   return (
     <Box className="ManageTables" sx={{
       pl: 9,
@@ -239,7 +258,33 @@ const ManageMenuItems = () => {
                       LoadingOverlay: LinearProgress,
                     }}
                     loading={loading}
+                    onRowClick={handleRowClick}
                   />
+                  <Popover open={selectedRowData !== null} anchorEl={anchorEl} onClose={handleClose}
+                    anchorOrigin={{ vertical: 'top',  horizontal: 'left',}}
+                    transformOrigin={{vertical: 'top', horizontal: 'left', }} >
+                    <div style={{ padding: '16px', minWidth: '250px' }}>
+                      <Typography variant="h6" gutterBottom>Food</Typography>
+                      {selectedRowData !== null && (
+                        <>
+                          <TextField
+                            id="outlined-basic"
+                            label="Food"
+                            value={selectedRowData.foodName}
+                            variant="outlined"
+                            onChange={(e) => setSelectedRowData(e.target.value)}/>
+                        </>
+                      )}
+                      <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between' }}>
+                        <Button variant="contained" onClick={editedRowData}>
+                          Add
+                        </Button>
+                        <Button variant="contained" onClick={handleClose} color="primary">
+                          Close
+                        </Button>
+                      </div>
+                    </div>
+                  </Popover>
                 </div>
               </div>
             </div>
