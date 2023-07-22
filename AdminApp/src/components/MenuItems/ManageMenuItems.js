@@ -49,9 +49,6 @@ const ManageMenuItems = () => {
   const [selectedRowData, setSelectedRowData] = useState(null)
   const [editRowsModel, setEditRowsModel] = React.useState({});
 
-  
-
-
   function CustomNoRowsOverlay(message) {
     return (
       <div xs={12} style={{ textAlign: "center", paddingTop: "50px" }}>
@@ -188,76 +185,12 @@ const ManageMenuItems = () => {
   }
 
   const [editedRowModel, setEditedRowModel] = useState({});
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-  // const handleCellEditCommit = (params) => {
-    //// onCellEditCommit={handleCellEditCommit} this line is for return datagrid.
-  //   // When a cell is edited, update the menuItems state
-  //   const { id, field, value } = params;
-  //   const updatedMenuItems = menuItems.map((item) =>
-  //     item.id === id ? { ...item, [field]: value } : item
-  //   );
-  //   setMenuItems(updatedMenuItems);
-  // };
-
-  const handleEditRowModelChange = (model) => {
-    // Update the editedRowModel state with the changes made in the DataGrid
-    setEditedRowModel(model);
-  };
 
   const handleRowClick = (params) => {
     console.log("hi");
-    // Set the clicked row as the currently edited row
     setEditedRowModel(params.row);
   };
 
-  const handleEditingComplete = () => {
-    setIsPopoverOpen(true);
-  };
-
-  const handlePopoverActionAdd = () => {
-    setIsPopoverOpen(false);
-  };
-
-  const handlePopoverActionCancel = () => {
-    setIsPopoverOpen(false);
-  };
-
-  const handleCellEditCommit = (params) => {
-    const { id, field, value } = params;
-    const updatedMenuItems = menuItems.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
-    );
-    setMenuItems(updatedMenuItems);
-    setIsPopoverOpen(true);
-  };
-
-  const useFakeMutation = () => {
-    return React.useCallback(
-      (user: Partial<User>) =>
-        new Promise<Partial<User>>((resolve, reject) => {
-          setTimeout(() => {
-            if (user.name?.trim() === '') {
-              reject();
-            } else {
-              resolve(user);
-            }
-          }, 200);
-        }),
-      [],
-    );
-  };
-  
-  function computeMutation(newRow: GridRowModel, oldRow: GridRowModel) {
-    if (newRow.name !== oldRow.name) {
-      return `Name from '${oldRow.name}' to '${newRow.name}'`;
-    }
-    if (newRow.age !== oldRow.age) {
-      return `Age from '${oldRow.age || ''}' to '${newRow.age || ''}'`;
-    }
-    return null;
-  }
-  
   return (
     <Box className="ManageTables" sx={{
       pl: 9,
@@ -314,15 +247,10 @@ const ManageMenuItems = () => {
             <div style={{ height: 500, width: '100%' }}>
               <div style={{ display: 'flex', height: '100%' }}>
                 <div style={{ flexGrow: 1 }}>
-                  {renderConfirmDialog()}
                   <DataGrid
                     columns={columns}
                     rows={menuItems}
                     editMode="row"
-                    onEditRowModelChange={handleEditRowModelChange}
-                    onCellEditingComplete={handleEditingComplete}
-                    onCellEditCommit={handleCellEditCommit} 
-                    processRowUpdate={processRowUpdate}
                     pageSize={pageSize}
                     onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                     rowsPerPageOptions={constants.GLOBAL_PAGE_SIZE_OPTIONS}
@@ -334,12 +262,6 @@ const ManageMenuItems = () => {
                     loading={loading}
                     onRowClick={handleRowClick}
                   />
-                  {!!snackbar && (
-                    <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
-                      <Alert {...snackbar} onClose={handleCloseSnackbar} />
-                    </Snackbar>
-                  )}
-                  
                 </div>
               </div>
             </div>
