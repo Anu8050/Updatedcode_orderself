@@ -6,9 +6,14 @@ import { DataGrid } from '@mui/x-data-grid';
 import {
   Box,
   Button,
-  Grid, TextField, Popover, 
+  Grid, TextField, Popover, GridRowsProp, 
   Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Typography
 } from "@mui/material";
+import {
+  GridRowModel,
+  GridColDef,
+  GridRowId,
+} from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import * as menuService from '../../services/menuService';
@@ -22,6 +27,7 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import MenuUploadCsv from '../../components/MenuItems/MenuUploadCsv';
 import ShowSnackbar from "../../utils/ShowSnackbar"
 import * as constants from '../../constants/index'
+
 
 const ManageMenuItems = () => {
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
@@ -41,6 +47,10 @@ const ManageMenuItems = () => {
   const [loading, setLoadingIconState] = React.useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowData, setSelectedRowData] = useState(null)
+  const [editRowsModel, setEditRowsModel] = React.useState({});
+
+  
+
 
   function CustomNoRowsOverlay(message) {
     return (
@@ -110,26 +120,30 @@ const ManageMenuItems = () => {
     setIsViewMenuPopupOpen(!isViewMenuPopupOpen);
   }
 
-  const columns = [
+  const columns= [
     {
       field: 'foodName',
       headerName: <strong>Food</strong>,
       width: 300,
+      editable: true,
     },
     {
       field: 'foodCategoryName',
       headerName: <strong>Food Category</strong>,
       width: 150,
+      editable: true,
     },
     {
       field: 'foodDescription',
       headerName: <strong>Food Description</strong>,
       width: 500,
+      editable: true,
     },
     {
       field: 'foodPrice',
       headerName: <strong>Price</strong>,
       width: 100,
+      editable: true,
     },
     {
       field: 'actions',
@@ -173,23 +187,77 @@ const ManageMenuItems = () => {
     setOpen(false);
   }
 
-  const editedRowData = () =>
-  {
-    alert('hi');
-  }
+  const [editedRowModel, setEditedRowModel] = useState({});
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-  // const handleRowClick = (params) => {
-  //   setSelectedRow(params.row);
+  // const handleCellEditCommit = (params) => {
+    //// onCellEditCommit={handleCellEditCommit} this line is for return datagrid.
+  //   // When a cell is edited, update the menuItems state
+  //   const { id, field, value } = params;
+  //   const updatedMenuItems = menuItems.map((item) =>
+  //     item.id === id ? { ...item, [field]: value } : item
+  //   );
+  //   setMenuItems(updatedMenuItems);
   // };
-  const handleRowClick = (params, event) => {
-    setSelectedRowData(params.row);
-    setAnchorEl(event.currentTarget);
+
+  const handleEditRowModelChange = (model) => {
+    // Update the editedRowModel state with the changes made in the DataGrid
+    setEditedRowModel(model);
   };
 
-  const handleClose = () => {
-    setSelectedRowData(null);
+  const handleRowClick = (params) => {
+    console.log("hi");
+    // Set the clicked row as the currently edited row
+    setEditedRowModel(params.row);
   };
 
+  const handleEditingComplete = () => {
+    setIsPopoverOpen(true);
+  };
+
+  const handlePopoverActionAdd = () => {
+    setIsPopoverOpen(false);
+  };
+
+  const handlePopoverActionCancel = () => {
+    setIsPopoverOpen(false);
+  };
+
+  const handleCellEditCommit = (params) => {
+    const { id, field, value } = params;
+    const updatedMenuItems = menuItems.map((item) =>
+      item.id === id ? { ...item, [field]: value } : item
+    );
+    setMenuItems(updatedMenuItems);
+    setIsPopoverOpen(true);
+  };
+
+  const useFakeMutation = () => {
+    return React.useCallback(
+      (user: Partial<User>) =>
+        new Promise<Partial<User>>((resolve, reject) => {
+          setTimeout(() => {
+            if (user.name?.trim() === '') {
+              reject();
+            } else {
+              resolve(user);
+            }
+          }, 200);
+        }),
+      [],
+    );
+  };
+  
+  function computeMutation(newRow: GridRowModel, oldRow: GridRowModel) {
+    if (newRow.name !== oldRow.name) {
+      return `Name from '${oldRow.name}' to '${newRow.name}'`;
+    }
+    if (newRow.age !== oldRow.age) {
+      return `Age from '${oldRow.age || ''}' to '${newRow.age || ''}'`;
+    }
+    return null;
+  }
+  
   return (
     <Box className="ManageTables" sx={{
       pl: 9,
@@ -235,7 +303,7 @@ const ManageMenuItems = () => {
         <Grid container padding={1} style={{ borderTopLeftRadius: '8px', borderTopRightRadius: '8px', backgroundColor: '#fff', alignContent: 'space-around' }} marginBottom={0.5}>
           <Grid item xs={4} className="breadcrumb">
             <span>Menu Items</span>
-          </Grid>          
+          </Grid>
           <Grid item xs={8} className="action-button">
             <Button variant='contained' onClick={() => handleUploadCsvPopupOpen()} startIcon={<DriveFolderUploadIcon/>}>Bulk Upload</Button>
             &nbsp;&nbsp;<Button variant='contained' onClick={() => handleAddMenuPopupOpen()}><AddIcon />&nbsp;Add</Button>
@@ -246,9 +314,15 @@ const ManageMenuItems = () => {
             <div style={{ height: 500, width: '100%' }}>
               <div style={{ display: 'flex', height: '100%' }}>
                 <div style={{ flexGrow: 1 }}>
+                  {renderConfirmDialog()}
                   <DataGrid
                     columns={columns}
                     rows={menuItems}
+                    editMode="row"
+                    onEditRowModelChange={handleEditRowModelChange}
+                    onCellEditingComplete={handleEditingComplete}
+                    onCellEditCommit={handleCellEditCommit} 
+                    processRowUpdate={processRowUpdate}
                     pageSize={pageSize}
                     onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                     rowsPerPageOptions={constants.GLOBAL_PAGE_SIZE_OPTIONS}
@@ -260,41 +334,26 @@ const ManageMenuItems = () => {
                     loading={loading}
                     onRowClick={handleRowClick}
                   />
-                  <Popover open={selectedRowData !== null} anchorEl={anchorEl} onClose={handleClose}
-                    anchorOrigin={{ vertical: 'top',  horizontal: 'left',}}
-                    transformOrigin={{vertical: 'top', horizontal: 'left', }} >
-                    <div style={{ padding: '16px', minWidth: '250px' }}>
-                      <Typography variant="h6" gutterBottom>Food</Typography>
-                      {selectedRowData !== null && (
-                        <>
-                          <TextField
-                            id="outlined-basic"
-                            label="Food"
-                            value={selectedRowData.foodName}
-                            variant="outlined"
-                            onChange={(e) => setSelectedRowData(e.target.value)}/>
-                        </>
-                      )}
-                      <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="contained" onClick={editedRowData}>
-                          Add
-                        </Button>
-                        <Button variant="contained" onClick={handleClose} color="primary">
-                          Close
-                        </Button>
-                      </div>
-                    </div>
-                  </Popover>
+                  {!!snackbar && (
+                    <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
+                      <Alert {...snackbar} onClose={handleCloseSnackbar} />
+                    </Snackbar>
+                  )}
+                  
                 </div>
               </div>
             </div>
           </Grid>
         </Grid>
       </Grid>
+
+      
+      
       <AddMenuPopup modeOfOperation={modeOfOperation} editData={editData} isDialogOpened={isAddMenuPopupOpen} handleCloseDialog={() => setIsAddMenuPopupOpen(false)} foodCategory = {foodCategory} />
       <ViewMenuPopUp menuId={id} viewData={editData} isDialogOpened={isViewMenuPopupOpen} handleCloseDialog={() => setIsViewMenuPopupOpen(false)} />
       <MenuUploadCsv isDialogOpened={isUploadCsvPopupOpen} handleCloseDialog={() =>  setIsUploadCsvPopupOpen(false)} />
     </Box>
+    
   );
 
 }
