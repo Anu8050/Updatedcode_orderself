@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import ShowMoreText from "react-show-more-text";
 import NoFoodImage from "../../assets/images/no-food-image.png";
 import "./FoodItemCard.css";
-import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import {  addToCartWithTimeout } from "../../redux/cartSlice";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';

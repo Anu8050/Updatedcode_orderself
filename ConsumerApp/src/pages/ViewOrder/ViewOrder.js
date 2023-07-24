@@ -300,7 +300,7 @@ function ViewOrder() {
          
             myData.map((item) => (
               <>
-                <Card sx={{ my: "6px" }} variant="outlined">
+                <Card sx={{ my: "6px" }} variant="outlined" >
                   <CardContent>
                     <Box
                       display={"flex"}
