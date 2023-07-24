@@ -297,7 +297,6 @@ function ViewOrder() {
       <Grid container spacing={3} sx={{ marginTop: 8, paddingBottom: 8 }}>
         <Grid item xs={12} sm={6}>
           {loading ? (
-         
             myData.map((item) => (
               <>
                 <Card sx={{ my: "6px" }} variant="outlined" >
