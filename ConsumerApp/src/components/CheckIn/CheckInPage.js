@@ -31,7 +31,7 @@ export default function RestaurantOrders(props) {
   const [error, setError] = React.useState(null);
 
   useEffect(() => {
-    if (!params.restaurantId || !params.tableNumber) 
+    if (!params.restaurantId && !params.tableNumber) 
     {
       setError(true);
     } 
