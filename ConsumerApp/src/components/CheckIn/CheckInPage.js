@@ -32,7 +32,6 @@ export default function RestaurantOrders(props) {
   const [error, setError] = React.useState(null);
 
   useEffect(() => {
-    console.log('hi9');
     if (!params.restaurantId || !params.tableNumber) 
     {
       setError(true);
@@ -93,7 +92,6 @@ export default function RestaurantOrders(props) {
   const [isValidPhoneNumber, setIsValidPhoneNumber] = React.useState(true);
 
   const handlePhoneNumberChange = (event) => {
-    console.log('hi10');
     const newPhoneNumber = event.target.value;
     setCustomerContactNo(newPhoneNumber.trim());
     const emailRegex = /^\s*[^\s@]+@[^\s@]+\.[^\s@]+\s*$/;
@@ -162,7 +160,6 @@ export default function RestaurantOrders(props) {
     tableNumber.length;
 
   const saveCustomerInfo = () => {
-    console.log('hi8');
     dispatch(resetCart());
     // console.log(customerName, customerContactNo, NumberOfGuest, "time",currentTime.toLocaleTimeString(),"date", currentDate.toString() )
     localStorage.clear();
@@ -206,7 +203,6 @@ export default function RestaurantOrders(props) {
   };
 
   const onSuccessfulCheckin = () => {
-    console.log('hi7');
     localStorage.setItem("defaultTheme", JSON.stringify(assignedThemeColors));
     updateTableStatus(tableNumber, params.restaurantId, "occupied").then(
       (status) => {
@@ -227,14 +223,12 @@ export default function RestaurantOrders(props) {
   // }, []);
 
   useEffect(() => {
-    console.log('hi');
     if (queryParams.size > 0) {
       verifySellerOnboardStatus();
     }
   }, [queryParams.get('merchantId')]);
 
   const verifySellerOnboardStatus = async () => {
-    console.log('hi13');
     const merchantData = {
       merchantId: queryParams.get("merchantId"), // firebase restaurant info doc id or tracking id
       merchantIdInPayPal: queryParams.get("merchantIdInPayPal"), // merchant id from paypal end
@@ -264,7 +258,6 @@ export default function RestaurantOrders(props) {
   };
 
   function extractParamsFromURL(url) {
-    console.log('hi4');
     const searchParams = new URLSearchParams(url.split("?")[1]);
     const params = {};
     for (let param of searchParams.entries()) {
@@ -274,7 +267,6 @@ export default function RestaurantOrders(props) {
   }
 
   const extractActionUrl = async (jsonObject) => {
-    console.log('hi3');
     let actionUrl = null;
     let partnerReferralId = null;
 
@@ -289,7 +281,6 @@ export default function RestaurantOrders(props) {
   };
 
   const handleMerchantSignUp = async () => {
-    console.log('hi2');
     const trackingId = params.restaurantId;
     const tableNumber = params.tableNumber;
     const response = await payPalService.createReferral(
