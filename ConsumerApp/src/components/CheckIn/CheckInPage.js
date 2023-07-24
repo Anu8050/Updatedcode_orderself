@@ -25,7 +25,6 @@ import PlaceIcon from '@mui/icons-material/Place';
 import Error from './ErrorPage';
 
 export default function RestaurantOrders(props) {
-  console.log('hi12');
   const [restaurantInfo, setRestaurantInfo] = React.useState([]);
   const [assignedThemeColors, setAssignedThemeColors] = React.useState();
   const dispatch = useDispatch();
