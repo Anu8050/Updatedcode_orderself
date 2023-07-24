@@ -178,7 +178,7 @@ const AddMenuPopup = ({ editData, ...props }) => {
               setFoodCategoryId(id);
               setFCategory(fCategory);
               getFC();
-        })             
+        })
     }
     else{
         setFoodCategoryErrorMessage("Already exists");
@@ -281,7 +281,7 @@ const AddMenuPopup = ({ editData, ...props }) => {
   setCheckedState(updatedCheckedState);
  }
 
- const [imageDimensions, setImageDimensions] = React.useState({width: 0, height: 0});
+  const [imageDimensions, setImageDimensions] = React.useState({width: 0, height: 0});
   const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
     multiple: false,
     maxSize: 102400, //for max size 100kb

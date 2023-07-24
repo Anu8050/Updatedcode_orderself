@@ -6,9 +6,14 @@ import { DataGrid } from '@mui/x-data-grid';
 import {
   Box,
   Button,
-  Grid,
+  Grid, TextField, Popover, GridRowsProp, 
   Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Typography
 } from "@mui/material";
+import {
+  GridRowModel,
+  GridColDef,
+  GridRowId,
+} from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import * as menuService from '../../services/menuService';
@@ -22,6 +27,7 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import MenuUploadCsv from '../../components/MenuItems/MenuUploadCsv';
 import ShowSnackbar from "../../utils/ShowSnackbar"
 import * as constants from '../../constants/index'
+
 
 const ManageMenuItems = () => {
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
@@ -39,6 +45,9 @@ const ManageMenuItems = () => {
   const [foodCategory, setFoodCategory] = React.useState([]);
 
   const [loading, setLoadingIconState] = React.useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedRowData, setSelectedRowData] = useState(null)
+  const [editRowsModel, setEditRowsModel] = React.useState({});
 
   function CustomNoRowsOverlay(message) {
     return (
@@ -108,26 +117,30 @@ const ManageMenuItems = () => {
     setIsViewMenuPopupOpen(!isViewMenuPopupOpen);
   }
 
-  const columns = [
+  const columns= [
     {
       field: 'foodName',
       headerName: <strong>Food</strong>,
       width: 300,
+      editable: true,
     },
     {
       field: 'foodCategoryName',
       headerName: <strong>Food Category</strong>,
       width: 150,
+      editable: true,
     },
     {
       field: 'foodDescription',
       headerName: <strong>Food Description</strong>,
       width: 500,
+      editable: true,
     },
     {
       field: 'foodPrice',
       headerName: <strong>Price</strong>,
       width: 100,
+      editable: true,
     },
     {
       field: 'actions',
@@ -170,6 +183,13 @@ const ManageMenuItems = () => {
     })
     setOpen(false);
   }
+
+  const [editedRowModel, setEditedRowModel] = useState({});
+
+  const handleRowClick = (params) => {
+    console.log("hi");
+    setEditedRowModel(params.row);
+  };
 
   return (
     <Box className="ManageTables" sx={{
@@ -216,7 +236,7 @@ const ManageMenuItems = () => {
         <Grid container padding={1} style={{ borderTopLeftRadius: '8px', borderTopRightRadius: '8px', backgroundColor: '#fff', alignContent: 'space-around' }} marginBottom={0.5}>
           <Grid item xs={4} className="breadcrumb">
             <span>Menu Items</span>
-          </Grid>          
+          </Grid>
           <Grid item xs={8} className="action-button">
             <Button variant='contained' onClick={() => handleUploadCsvPopupOpen()} startIcon={<DriveFolderUploadIcon/>}>Bulk Upload</Button>
             &nbsp;&nbsp;<Button variant='contained' onClick={() => handleAddMenuPopupOpen()}><AddIcon />&nbsp;Add</Button>
@@ -230,6 +250,7 @@ const ManageMenuItems = () => {
                   <DataGrid
                     columns={columns}
                     rows={menuItems}
+                    editMode="row"
                     pageSize={pageSize}
                     onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                     rowsPerPageOptions={constants.GLOBAL_PAGE_SIZE_OPTIONS}
@@ -239,6 +260,7 @@ const ManageMenuItems = () => {
                       LoadingOverlay: LinearProgress,
                     }}
                     loading={loading}
+                    onRowClick={handleRowClick}
                   />
                 </div>
               </div>
@@ -246,10 +268,14 @@ const ManageMenuItems = () => {
           </Grid>
         </Grid>
       </Grid>
+
+      
+      
       <AddMenuPopup modeOfOperation={modeOfOperation} editData={editData} isDialogOpened={isAddMenuPopupOpen} handleCloseDialog={() => setIsAddMenuPopupOpen(false)} foodCategory = {foodCategory} />
       <ViewMenuPopUp menuId={id} viewData={editData} isDialogOpened={isViewMenuPopupOpen} handleCloseDialog={() => setIsViewMenuPopupOpen(false)} />
       <MenuUploadCsv isDialogOpened={isUploadCsvPopupOpen} handleCloseDialog={() =>  setIsUploadCsvPopupOpen(false)} />
     </Box>
+    
   );
 
 }
