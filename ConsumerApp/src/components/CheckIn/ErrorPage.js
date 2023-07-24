@@ -1,6 +1,4 @@
 import React from "react";
-import Chackin from './CheckInPage'
-import { Icon } from "@mui/material";
 
 const Error = () => {
   return (
