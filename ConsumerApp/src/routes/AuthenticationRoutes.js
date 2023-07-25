@@ -4,7 +4,7 @@ import { lazy } from "react";
 import Loadable from "../components/Loadable";
 import MinimalLayout from "../layout/MinimalLayout";
 import RestaurantOrders from "../OrderStatus/RestaurantOrders";
-
+import ErrorMessage from "../components/CheckIn/ErrorMessage";
 const CheckInPage = Loadable(
   lazy(() => import("../components/CheckIn/CheckInPage"))
 );
@@ -28,6 +28,10 @@ const AuthenticationRoutes = {
       path: "check-in-completed/:restaurantId/:tableNumber",
       element: <CheckInCompleted/>,
     },
+    {
+      path:"error",
+      element:<ErrorMessage/>
+    }
     // {
     //   path: "/allorders/:restaurantId/:tableNumber/:restaurantName",
     //   element: <RestaurantOrders />,

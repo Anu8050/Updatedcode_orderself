@@ -14,6 +14,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { useParams } from "react-router";
 import orderselfLogo from "../../assets/images/orderself-logo.png";
+// import restaurantLogo from "../../assets/images/restaurant.jpg";
 import Box from "@mui/material/Box";
 import * as menuService from "../../services/menuService";
 import { Card, CardActions, CardContent, Paper } from "@material-ui/core";
@@ -22,39 +23,40 @@ import { resetCart } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 // import LoginIcon from '@mui/icons-material/Login';
 import PlaceIcon from '@mui/icons-material/Place';
-import Error from './ErrorPage';
+import ErrorMessage from "./ErrorMessage";
+
 
 export default function RestaurantOrders(props) {
-  console.log('hi12');
   const [restaurantInfo, setRestaurantInfo] = React.useState([]);
   const [assignedThemeColors, setAssignedThemeColors] = React.useState();
+
+  const[showError, setShowError] = React.useState(true)
   const dispatch = useDispatch();
-  const [error, setError] = React.useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('hi9');
-    if (!params.restaurantId || !params.tableNumber) 
-    {
-      setError(true);
+    if (!params.restaurantId || !params.tableNumber) {
+     
+      window.location.href="error"
+         navigate("error")
     } 
-    else
-    {
-      localStorage.setItem("restaurant_id", params.restaurantId);
-      const result = menuService.getRestaurantInfo(params.restaurantId);
-      result.then((restInfo) => {
-        setRestaurantInfo(restInfo);
-        const theme = menuService.getconfigThemeById(restInfo.themeId);
-        theme.then((df) => {
-          df.setDefault = true;
-          setAssignedThemeColors(df);
-        });
+    else {
+    localStorage.setItem("restaurant_id", params.restaurantId);
+    const result = menuService.getRestaurantInfo(params.restaurantId);
+    result.then((restInfo) => {
+      setRestaurantInfo(restInfo);
+      const theme = menuService.getconfigThemeById(restInfo.themeId);
+      theme.then((df) => {
+        df.setDefault = true;
+        setAssignedThemeColors(df);
       });
-    }
-    
+    });
+  }
+   
   }, []);
 
   const params = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [tableNumber, setTableNumber] = React.useState(params.tableNumber);
   const [currentTime, setCurrentTime] = React.useState(new Date());
   const [currentDate, setCurrentDate] = React.useState(
@@ -93,7 +95,6 @@ export default function RestaurantOrders(props) {
   const [isValidPhoneNumber, setIsValidPhoneNumber] = React.useState(true);
 
   const handlePhoneNumberChange = (event) => {
-    console.log('hi10');
     const newPhoneNumber = event.target.value;
     setCustomerContactNo(newPhoneNumber.trim());
     const emailRegex = /^\s*[^\s@]+@[^\s@]+\.[^\s@]+\s*$/;
@@ -162,10 +163,10 @@ export default function RestaurantOrders(props) {
     tableNumber.length;
 
   const saveCustomerInfo = () => {
-    console.log('hi8');
     dispatch(resetCart());
     // console.log(customerName, customerContactNo, NumberOfGuest, "time",currentTime.toLocaleTimeString(),"date", currentDate.toString() )
     localStorage.clear();
+    setShowError(true);
     const result = checkExistingGuest(customerContactNo);
     result.then((data) => {
       if (data.size <= 0) {
@@ -206,7 +207,6 @@ export default function RestaurantOrders(props) {
   };
 
   const onSuccessfulCheckin = () => {
-    console.log('hi7');
     localStorage.setItem("defaultTheme", JSON.stringify(assignedThemeColors));
     updateTableStatus(tableNumber, params.restaurantId, "occupied").then(
       (status) => {
@@ -214,6 +214,7 @@ export default function RestaurantOrders(props) {
       }
     );
     navigate(`/check-in-completed/${params.restaurantId}/${tableNumber}`);
+    setShowError(true)
   };
 
   // React.useEffect(() => {
@@ -227,14 +228,12 @@ export default function RestaurantOrders(props) {
   // }, []);
 
   useEffect(() => {
-    console.log('hi');
     if (queryParams.size > 0) {
       verifySellerOnboardStatus();
     }
   }, [queryParams.get('merchantId')]);
 
   const verifySellerOnboardStatus = async () => {
-    console.log('hi13');
     const merchantData = {
       merchantId: queryParams.get("merchantId"), // firebase restaurant info doc id or tracking id
       merchantIdInPayPal: queryParams.get("merchantIdInPayPal"), // merchant id from paypal end
@@ -264,17 +263,17 @@ export default function RestaurantOrders(props) {
   };
 
   function extractParamsFromURL(url) {
-    console.log('hi4');
     const searchParams = new URLSearchParams(url.split("?")[1]);
     const params = {};
+
     for (let param of searchParams.entries()) {
       params[param[0]] = param[1];
     }
+
     return params.referralToken;
   }
 
   const extractActionUrl = async (jsonObject) => {
-    console.log('hi3');
     let actionUrl = null;
     let partnerReferralId = null;
 
@@ -283,13 +282,12 @@ export default function RestaurantOrders(props) {
         actionUrl = link.href;
         partnerReferralId = extractParamsFromURL(link.href);
       }
-
     });
+
     return { actionUrl, partnerReferralId };
   };
 
   const handleMerchantSignUp = async () => {
-    console.log('hi2');
     const trackingId = params.restaurantId;
     const tableNumber = params.tableNumber;
     const response = await payPalService.createReferral(
@@ -309,7 +307,6 @@ export default function RestaurantOrders(props) {
   };
 
   const handleGuestNoKeyPress = (event) => {
-    console.log('hi1');
     const allowedCharacters = /[^0-9]/;
     if (event.key.match(allowedCharacters)) {
       event.preventDefault();
@@ -318,192 +315,189 @@ export default function RestaurantOrders(props) {
 
   return (
     <React.Fragment>
-    {error ? ( 
-      <Error message={error} /> 
-    ):(
-        <Paper>
-          <Box
-            sx={{
-              height: "30vh",
-              backgroundColor: "black",
-              display: "grid",
-              placeItems: "center",
+      <Paper>
+        <Box
+          sx={{
+            height: "30vh",
+            backgroundColor: "black",
+            display: "grid",
+            placeItems: "center",
+          }}
+        >
+          <center>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Box
+                component="img"
+                sx={{ height: 64 }}
+                alt="OrderSelf"
+                src={orderselfLogo}
+               
+              />
+              {/* <Button variant="text" onClick={handleMerchantSignUp}>
+                Sign up
+              </Button> */}
+            </Box>
+          </center>
+        </Box>
+        <Box
+          sx={{
+            height: "70vh",
+            position: "relative",
+            backgroundColor: "#eef2f6",
+          }}
+        >
+          <Card
+            style={{
+              width: "100%",
+              maxWidth: "360px",
+              margin: "20px auto",
+              maringTop: "-200px",
+              position: "absolute",
+              top: "-80px",
+              left: "50%",
+              transform: "translateX(-50%)",
             }}
           >
-            <center>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Box
-                  component="img"
-                  sx={{ height: 64 }}
-                  alt="OrderSelf"
-                  src={orderselfLogo}
-                />
-                {/* <Button variant="text" onClick={handleMerchantSignUp}>
-                  Sign up
-                </Button> */}
-              </Box>
-            </center>
-          </Box>
-          <Box
-            sx={{
-              height: "70vh",
-              position: "relative",
-              backgroundColor: "#eef2f6",
-            }}
-          >
-            <Card
-              style={{
-                width: "100%",
-                maxWidth: "360px",
-                margin: "20px auto",
-                maringTop: "-200px",
-                position: "absolute",
-                top: "-80px",
-                left: "50%",
-                transform: "translateX(-50%)",
-              }}
-            >
-              <CardContent>
-                <center>
-                  {restaurantInfo.restaurantLogoUrl && (
-                    <Box
-                      component="img"
-                      style={{
-                        border: "6px solid #ccc",
-                        borderWidth: 4,
-                        borderRadius: 6,
-                        boxShadow: "2px 2px 10px 2px #ccc",
-                      }}
-                      sx={{ height: 64, m: 2 }}
-                      alt="OrderSelf"
-                      src={restaurantInfo.restaurantLogoUrl}
-                    />
-                  )}
-                  {restaurantInfo.restaurantName && (
-                    <Typography variant="h4">
-                      {restaurantInfo.restaurantName}
-                    </Typography>
-                  )}
-
-                  <Typography variant="h2" sx={{ m: 1 }}>
-                    Check-In
+            <CardContent>
+              <center>
+                {restaurantInfo.restaurantLogoUrl && (
+                  <Box
+                    component="img"
+                    style={{
+                      border: "6px solid #ccc",
+                      borderWidth: 4,
+                      borderRadius: 6,
+                      boxShadow: "2px 2px 10px 2px #ccc",
+                    }}
+                    sx={{ height: 64, m: 2 }}
+                    alt="OrderSelf"
+                    src={restaurantInfo.restaurantLogoUrl}
+                  />
+                )}
+                {restaurantInfo.restaurantName && (
+                  <Typography variant="h4">
+                    {restaurantInfo.restaurantName}
                   </Typography>
-                </center>
+                )}
 
+                <Typography variant="h2" sx={{ m: 1 }}>
+                  Check-In
+                </Typography>
+              </center>
+
+              <TextField
+                required
+                id="contactnumber"
+                label="Email or Phone"
+                value={customerContactNo}
+                onBlur={handlePhoneNumberChange}
+                onChange={handlePhoneNumberChange}
+                error={!isValidPhoneNumber}
+                helperText={
+                  !isValidPhoneNumber
+                    ? "Please enter a valid phone or email"
+                    : ""
+                }
+                sx={{ width: "100%", mb: 2 }}
+              />
+              <TextField
+                required
+                id="customername"
+                label="Name"
+                //   inputRef={customerName}
+                value={customerName}
+                // onBlur={handleCustomerName}
+                onChange={handleCustomerName}
+                error={!isValidcustomerName}
+                helperText={
+                  !isValidcustomerName ? "Please enter the name correctly" : ""
+                }
+                InputLabelProps={{ shrink: true }}
+                InputProps={{ readOnly: readOnly }}
+                sx={{ width: "100%", mb: 0 }}
+              />
+              {/* {customerNameErrorMessage && (<span style={{ fontSize: "12px", color: "red" }}>{customerNameErrorMessage}</span>)} */}
+
+              <Box
+                sx={{
+                  width: "100%",
+                  // display: "flex",
+                  display:"none",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  mb: 2,
+                }}
+              >
                 <TextField
-                  required
-                  id="contactnumber"
-                  label="Email or Phone"
-                  value={customerContactNo}
-                  onBlur={handlePhoneNumberChange}
-                  onChange={handlePhoneNumberChange}
-                  error={!isValidPhoneNumber}
+                  id="numberofguest"
+                  label="Number of guests"
+                  type="number"
+                  inputProps={{
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                    min: 0,
+                    max: 50,
+                  }}
+                  onChange={handleGuestNo}
+                  onKeyPress={handleGuestNoKeyPress}
+                  error={!isValidGuestError}
                   helperText={
-                    !isValidPhoneNumber
-                      ? "Please enter a valid phone or email"
+                    !isValidGuestError
+                      ? "Please enter the digits between [0-50]"
                       : ""
                   }
-                  sx={{ width: "100%", mb: 2 }}
+                  sx={{ width: "100%", mr: 1 }}
                 />
+                {/* {NumberOfGuestError && (<span style={{ fontSize: "12px", color: "red" }}>{NumberOfGuestError}</span>)} */}
                 <TextField
-                  required
-                  id="customername"
-                  label="Name"
-                  //   inputRef={customerName}
-                  value={customerName}
-                  // onBlur={handleCustomerName}
-                  onChange={handleCustomerName}
-                  error={!isValidcustomerName}
-                  helperText={
-                    !isValidcustomerName ? "Please enter the name correctly" : ""
-                  }
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{ readOnly: readOnly }}
-                  sx={{ width: "100%", mb: 0 }}
+                  label="Table number"
+                  // defaultValue={params.tableNumber}
+                  value={tableNumber}
+                  onChange={(e) => setTableNumber(e.target.value)}
+                  inputProps={{ readOnly: true }}
+                  sx={{ width: "100%" }}
                 />
-                {/* {customerNameErrorMessage && (<span style={{ fontSize: "12px", color: "red" }}>{customerNameErrorMessage}</span>)} */}
+              </Box>
+              <Box sx={{display:"none"}}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                style={{
+                  display: "flex",
 
-                <Box
-                  sx={{
-                    width: "100%",
-                    // display: "flex",
-                    display:"none",
-                    alignItems: "center",
-                    justifyContent: "space-evenly",
-                    mb: 2,
-                  }}
-                >
-                  <TextField
-                    id="numberofguest"
-                    label="Number of guests"
-                    type="number"
-                    inputProps={{
-                      inputMode: "numeric",
-                      pattern: "[0-9]*",
-                      min: 0,
-                      max: 50,
-                    }}
-                    onChange={handleGuestNo}
-                    onKeyPress={handleGuestNoKeyPress}
-                    error={!isValidGuestError}
-                    helperText={
-                      !isValidGuestError
-                        ? "Please enter the digits between [0-50]"
-                        : ""
-                    }
-                    sx={{ width: "100%", mr: 1 }}
-                  />
-                  {/* {NumberOfGuestError && (<span style={{ fontSize: "12px", color: "red" }}>{NumberOfGuestError}</span>)} */}
-                  <TextField
-                    label="Table number"
-                    // defaultValue={params.tableNumber}
-                    value={tableNumber}
-                    onChange={(e) => setTableNumber(e.target.value)}
-                    inputProps={{ readOnly: true }}
-                    sx={{ width: "100%" }}
-                  />
-                </Box>
-                <Box sx={{display:"none"}}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  style={{
-                    display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <TextField
+                  label="Date"
+                  value={currentDate}
+                  readOnly
+                  sx={{ width: "49%", mr: 1 }}
+                />
+                <TimePicker
+                  label="Time"
+                  value={currentTime}
+                  readOnly
+                  sx={{ width: "48%" }}
+                />
+              </LocalizationProvider>
+              </Box>
 
-                    alignItems: "center",
-                    justifyContent: "space-evenly",
-                  }}
-                >
-                  <TextField
-                    label="Date"
-                    value={currentDate}
-                    readOnly
-                    sx={{ width: "49%", mr: 1 }}
-                  />
-                  <TimePicker
-                    label="Time"
-                    value={currentTime}
-                    readOnly
-                    sx={{ width: "48%" }}
-                  />
-                </LocalizationProvider>
-                </Box>
-
-              </CardContent>
-              <CardActions>
-                <Button
-                  variant="contained"
-                  sx={{ width: "100%", mb: 2, mx: 0 }}
-                  onClick={saveCustomerInfo}
-                  disabled={!isEmpty}
-                  startIcon={<PlaceIcon/>}
-                >
-                  Check-In
-                </Button>
-              </CardActions>
-            </Card>
-          </Box>
-        </Paper>
-    )}
+            </CardContent>
+            <CardActions>
+              <Button
+                variant="contained"
+                sx={{ width: "100%", mb: 2, mx: 0 }}
+                onClick={saveCustomerInfo}
+                disabled={!isEmpty}
+                startIcon={<PlaceIcon/>}
+              >
+                Check-In
+              </Button>
+            </CardActions>
+          </Card>
+        </Box>
+      </Paper>
     </React.Fragment>
   );
 }
