@@ -13,7 +13,7 @@ import {
 } from "../../services/menuService";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useParams } from "react-router";
-import orderselfLogo from "../../assets/images/success.png";//orderself-logo.png";
+import orderselfLogo from "../../assets/images/orderself-logo.png"; //success.png";
 import Box from "@mui/material/Box";
 import * as menuService from "../../services/menuService";
 import { Card, CardActions, CardContent, Paper } from "@material-ui/core";
@@ -48,7 +48,6 @@ export default function RestaurantOrders(props) {
         });
       });
     }
-    
   }, []);
 
   const params = useParams();
