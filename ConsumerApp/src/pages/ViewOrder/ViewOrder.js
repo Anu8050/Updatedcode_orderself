@@ -275,7 +275,9 @@ function ViewOrder() {
         onClose={handleClose}
       >
         <DialogTitle id="alert-dialog-title" style={{  padding: "1rem" }} >
-          <Typography variant="h2">Add Tip Confirmation</Typography>
+          <div>
+            <Typography variant="h2">Add Tip Confirmation</Typography>
+          </div>
         </DialogTitle>
         <DialogContent style={{borderTop:"1px solid #fc8019",marginTop:"-1rem"}}>
           <p style={{ color: "gray" }}>Are you sure you want to add a tip amount of <strong>{tipValue} €</strong>?</p>
