@@ -29,29 +29,51 @@ const ShowCurrentOrder = (props) => {
         x.then((data) => {
           if (data.length > 0) {
             setOrderedItem(data);
+            console.log(data);
+            console.log()
             var orderedItems = [];
             // if (orderedItem.length > 0) {
             data.forEach((info) => {
+                
               info.menuItems.forEach((item) => {
-                var promise = menuService.getMenuItem(item.menuInfoId);
-                promise.then(data => {
-                  var promise1 = tableService.getCustomerNameById(info.customerId);
-                  promise1.then((name)=>{
-                    orderedItems = [...orderedItems, { ...data, orderStatus: item.orderStatus, quantity: item.qty ,customerName: name}]
-                  })
-                })
+                // console.log(info.orderDate)
+                const timestamp = { seconds: info.orderDate.seconds, nanoseconds: info.orderDate.nanoseconds };
+                const milliseconds = timestamp.seconds * 1000 + Math.round(timestamp.nanoseconds / 1e6);
+                const dateObject = new Date(milliseconds);
+                // console.log(dateObject);
+
+                const todayDate = new Date();
+                // console.log(todayDate)
+                // console.log('----');
+                const formattedOrderDate = format(dateObject, "yyyy-MM-dd");
+                console.log(formattedOrderDate,'OrderDate ')
+                const formattedTodayDate = format(todayDate, "yyyy-MM-dd");
+                console.log(formattedTodayDate,'TodayDate')
+                // console.log('----');
+
+                if (formattedOrderDate === formattedTodayDate) 
+                {
+                    var promise = menuService.getMenuItem(item.menuInfoId);
+                    promise.then(data => {
+                      var promise1 = tableService.getCustomerNameById(info.customerId);
+                      promise1.then((name)=>{
+                        orderedItems = [...orderedItems, { ...data,orderDate: info.orderDate, orderStatus: item.orderStatus, quantity: item.qty ,customerName: name}]
+                        console.log('i m here')
+                      })
+                    })
+                }
               })
             })
             // }
             setTimeout(() => {
               setMyData(Object.values(orderedItems));
-              console.log(myData,"mydata>0");
-              console.log(props.tableNumber);
+              // console.log(myData,"mydata>0");
+              // console.log(props.tableNumber);
             }, 2000);
           } else {
             setMyData([]);
-            console.log(myData,"<0");
-            console.log(props.tableNumber);
+            // console.log(myData,"<0");
+            // console.log(props.tableNumber);
           }
           setTimeout(() => {
             setLoading(true);
