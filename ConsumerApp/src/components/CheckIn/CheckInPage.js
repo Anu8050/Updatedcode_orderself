@@ -28,12 +28,11 @@ export default function RestaurantOrders(props) {
   const [restaurantInfo, setRestaurantInfo] = React.useState([]);
   const [assignedThemeColors, setAssignedThemeColors] = React.useState();
   const dispatch = useDispatch();
-  const [error, setError] = React.useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    if (!params.restaurantId && !params.tableNumber) 
+    if (!params.restaurantId || !params.tableNumber) 
     {
-      setError(true);
+      navigate('/ErrorPage')
     } 
     else
     {
@@ -51,7 +50,7 @@ export default function RestaurantOrders(props) {
   }, []);
 
   const params = useParams();
-  const navigate = useNavigate();
+
   const [tableNumber, setTableNumber] = React.useState(params.tableNumber);
   const [currentTime, setCurrentTime] = React.useState(new Date());
   const [currentDate, setCurrentDate] = React.useState(
@@ -298,7 +297,6 @@ export default function RestaurantOrders(props) {
   };
 
   const handleGuestNoKeyPress = (event) => {
-    console.log('hi1');
     const allowedCharacters = /[^0-9]/;
     if (event.key.match(allowedCharacters)) {
       event.preventDefault();
@@ -307,9 +305,6 @@ export default function RestaurantOrders(props) {
 
   return (
     <React.Fragment>
-    {error ? ( 
-      <Error message={error} /> 
-    ):(
         <Paper>
           <Box
             sx={{
@@ -492,7 +487,6 @@ export default function RestaurantOrders(props) {
             </Card>
           </Box>
         </Paper>
-    )}
     </React.Fragment>
   );
 }
