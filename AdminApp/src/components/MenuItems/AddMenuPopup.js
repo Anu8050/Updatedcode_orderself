@@ -203,10 +203,11 @@ const AddMenuPopup = ({ editData, ...props }) => {
 
 
   const [foodTax, setFoodTax] = useState(editData?.vatPercent);
-  const foodTaxList = [
-    { label:"7%", id:7 },
-    { label:"19%", id:19 } 
-  ];
+  // const foodTaxList = [
+  //   { label:"7%", id:7 },
+  //   { label:"19%", id:19 } 
+  // ];
+  const foodTaxList = ["7%", "19%"];
 
   const [foodDescription, setFoodDescription] = React.useState(editData?.foodDescription);
   const [descriptionErrorMessage, setDescriptionErrorMessage] = useState("");
@@ -569,6 +570,7 @@ const createMenuItem = () => {
                       <TextField {...params} label="VAT" />
                     )}
                     onChange={(e, v) => { setFoodTax(v?.label)}}
+
                   />
                 </div>
                 {priceErrorMessage && (
