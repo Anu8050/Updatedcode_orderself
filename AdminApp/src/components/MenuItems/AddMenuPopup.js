@@ -685,7 +685,7 @@ const createMenuItem = () => {
                     <div className="week-day-container">
                       {DAYS.map((day, index) => {
                         return (
-                          <div className="roundchk">
+                          <div className="roundchk" key={index}>
                             <input name={day.key} type="checkbox" id={day.key} value={index}
                               checked={checkedState[index]}
                               onChange={() => weekDaysHandleChange(index)}
@@ -740,7 +740,7 @@ const createMenuItem = () => {
             <LoadingButton
               variant="contained"
               loading={loading}
-              loadingPosition="start"
+              // loadingPosition="start"
               onClick={createMenuItem}
               disabled={!isEmpty}
             >

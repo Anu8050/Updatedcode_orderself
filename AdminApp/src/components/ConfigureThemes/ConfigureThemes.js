@@ -95,6 +95,7 @@ const ConfigureThemes = () => {
       ),
     },
     { 
+      field:'',
       headerName: 'Set Default Theme',
       width: 150,
       renderCell: (params) => {

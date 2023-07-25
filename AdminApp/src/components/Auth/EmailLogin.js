@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import React, { useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ForgotPassword from './ForgotPassword';
@@ -141,17 +141,17 @@ const EmailLogin = ({ open, close, loginHandlerEmail }) => {
                                         maxWidth: '100%',
                                     }}
                                 >
-                                    <Box fullWidth>
+                                    <Box>
                                         <p>Email</p>
                                         <FormControl sx={{ width: '100%' }} variant="outlined">
                                             <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
                                             <OutlinedInput
-                                                error={emailErrorMessage}
+                                                error={emailErrorMessage? true : false}
                                                 id="outlined-adornment-email"
                                                 type={"email"}
                                                 label="Email"
                                                 onChange={(e) => handleEmail(e)}
-                                                helperText="Incorrect Email"
+                                                // helperText="Incorrect Email"
                                             />
                                         </FormControl>
                                         {emailErrorMessage && <span style={{fontSize: "12px", color: "red"}}>{emailErrorMessage}</span>}
@@ -177,8 +177,8 @@ const EmailLogin = ({ open, close, loginHandlerEmail }) => {
                                                 }
                                                 onChange={(e) => handlePassword(e)}
                                                 label="Password"
-                                                error={passwordErrorMessage}
-                                                helperText="Incorrect Email"
+                                                error={passwordErrorMessage? true : false}
+                                                // helperText="Incorrect Email"
                                                 onKeyDown={handleLoginPress}
                                             />
                                         </FormControl>

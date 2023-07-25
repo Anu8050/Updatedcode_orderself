@@ -120,31 +120,31 @@ const ManageMenuItems = () => {
   const columns= [
     {
       field: 'foodName',
-      headerName: <strong>Food</strong>,
+      headerName: 'Food',
       width: 300,
       editable: true,
     },
     {
       field: 'foodCategoryName',
-      headerName: <strong>Food Category</strong>,
+      headerName: 'Food Category',
       width: 150,
       editable: true,
     },
     {
       field: 'foodDescription',
-      headerName: <strong>Food Description</strong>,
+      headerName: 'Food Description',
       width: 500,
       editable: true,
     },
     {
       field: 'foodPrice',
-      headerName: <strong>Price</strong>,
+      headerName:'Price',
       width: 100,
       editable: true,
     },
     {
       field: 'actions',
-      headerName: <strong>Actions</strong>,
+      headerName:'Actions',
       type: 'actions',
       // flex: 0.2,
       width:250,

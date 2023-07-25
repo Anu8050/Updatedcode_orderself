@@ -240,7 +240,7 @@ const MenuUploadCsv = (props) => {
                   <LoadingButton
                     variant="contained"
                     loading={loading}
-                    loadingPosition="start"
+                    // loadingPosition="start"
                     disabled={!menuData.length} 
                     onClick={UploadCsv}>
                     Upload CSV

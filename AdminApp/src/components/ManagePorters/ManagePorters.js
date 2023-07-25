@@ -98,32 +98,32 @@ const ManagePorters = () => {
   const columns = [
     {
       field: "firstName",
-      headerName: <strong>First Name</strong>,      
+      headerName:"First Name",      
       flex: .2,
     },
     { field: "lastName", 
-    headerName: <strong>Last Name</strong>, 
+    headerName:"Last Name", 
     flex: .2 },
     {
       field: "gender",
-      headerName: <strong>Gender</strong>,
+      headerName:"Gender",
       width: 150,
     },
     {
       field: "emailId",
-      headerName: <strong>Email</strong>,
+      headerName:"Email",
       width: 150,
       flex: .5,
     },
     {
       field: "phone",
-      headerName: <strong>Phone</strong>,
+      headerName:"Phone",
       width: 150,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: <strong>Actions</strong>,
+      headerName:"Actions",
       flex: 0.2,
       getActions: (params) => [
         <LightTooltip

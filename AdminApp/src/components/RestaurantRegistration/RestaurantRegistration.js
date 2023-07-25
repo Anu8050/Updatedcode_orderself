@@ -401,7 +401,7 @@ const RestaurantRegistration = () => {
                 variant="contained"
                 className="welcome-screen-btns"
                 loading={loading}
-                loadingPosition="start"
+                // loadingPosition="start"
                 onClick={handleSubmit}
                 >
                 Register your Restaurant

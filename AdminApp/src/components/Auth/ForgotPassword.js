@@ -69,7 +69,7 @@ else{
           open={props.isDialogOpened}
           onClose={handleClose}
           aria-labelledby="max-width-dialog-title"
-            PaperProps={{ sx: { width:"30%" } }}
+            paperprops={{ sx: { width:"30%" } }}
           maxWidth={false}
         >
           <DialogTitle id="max-width-dialog-title">
@@ -91,20 +91,20 @@ else{
           </DialogTitle>
           <DialogContent
             style={{ borderTop: "0.15em solid #FC8019" }}
-            PaperProps={{ sx: { height: "72%" } }}
+            paperprops={{ sx: { height: "72%" } }}
           >
-            <Box fullWidth>
+            <Box>
               <FormControl sx={{width:"80%",marginTop:"20px"}} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-email">
                  Email
                 </InputLabel>
                 <OutlinedInput
-                  error={emailErrorMessage}
+                  error={emailErrorMessage? true : false}
                   id="outlined-adornment-email"
                   type={"email"}
                   label="Email"
                   onChange={(e) => handleEmail(e)}
-                  helperText="Incorrect Email"
+                  // helperText="Incorrect Email"
                 />
                 {emailErrorMessage && <span style={{fontSize: "12px", color: "red"}}>{emailErrorMessage}</span>}
               </FormControl>

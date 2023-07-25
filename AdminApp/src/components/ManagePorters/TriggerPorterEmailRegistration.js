@@ -207,7 +207,7 @@ const TriggerPorterEmailRegistration = (props) => {
               <LoadingButton
                 variant="contained"
                 loading={loading}
-                loadingPosition="start"
+                // loadingPosition="start"
                 onClick={sendPorterRegistrationLink}
               >
                 Send Link
