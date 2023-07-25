@@ -690,7 +690,7 @@ const createMenuItem = () => {
                               checked={checkedState[index]}
                               onChange={() => weekDaysHandleChange(index)}
                             />
-                            <label for={day.key}>{day.label}</label>
+                            <label htmlFor={day.key}>{day.label}</label>
                           </div>);
                       })}
                     </div>
