@@ -306,10 +306,8 @@ function ViewOrder() {
       <Grid container spacing={3} sx={{ marginTop: 8, paddingBottom: 8 }}>
         <Grid item xs={12} sm={6}>
           {loading ? (
-         
-            myData.map((item) => (
-              <React.Fragment key={item.id}>
-                <Card sx={{ my: "6px" }} variant="outlined">
+            myData.map((item, index) => (
+                <Card key={index} sx={{ my: "6px" }} variant="outlined">
                   <CardContent>
                     <Box
                       display={"flex"}
@@ -349,7 +347,6 @@ function ViewOrder() {
                   <StepperComponent x={item.orderStatus === "In Progress" ? 0 : 2} />
                   </CardActions>
                 </Card>
-              </React.Fragment>
             ))
           ) : (
             <Box
@@ -416,7 +413,7 @@ function ViewOrder() {
                               item.foodPrice.replace(" €", "")
                             );
                             return (
-                              <tbody key={{ generatedUUID }}>
+                              <tbody key={ index }>
                                 <tr>
                                 <td>
                                 {item.foodName.length > 10 ? (
