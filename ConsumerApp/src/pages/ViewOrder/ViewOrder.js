@@ -300,7 +300,7 @@ function ViewOrder() {
         <Grid item xs={12} sm={6}>
           {loading ? (
             myData.map((item) => (
-              <>
+              <React.Fragment key={item.id}>
                 <Card sx={{ my: "6px" }} variant="outlined" >
                   <CardContent>
                     <Box
@@ -341,7 +341,7 @@ function ViewOrder() {
                   <StepperComponent x={item.orderStatus === "In Progress" ? 0 : 2} />
                   </CardActions>
                 </Card>
-              </>
+              </React.Fragment>
             ))
           ) : (
             <Box
