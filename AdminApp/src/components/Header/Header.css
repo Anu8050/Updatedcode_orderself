@@ -4,3 +4,12 @@
 a {
     text-decoration: none !important;
   }
+
+centered-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0; 
+  height: 100%;
+  font-size: small;
+}

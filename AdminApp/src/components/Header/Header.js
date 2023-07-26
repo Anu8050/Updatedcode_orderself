@@ -28,6 +28,7 @@ import {
   Link, Grid
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import orderselfLogo from "../../assets/images/orderself-logo.png";//../assets/images/orderself-logo.png';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -88,9 +89,12 @@ const Header = () => {
          </Link>        
         </Grid>
       } 
-        <Grid item xs={10} md={10} style={{margin:"auto"}}>
+        <Grid item sm={10} md={10} style={{margin:"auto",display: 'flex', alignItems:"center"}}>
         <Link  title='OrderSelf'> 
-        <div>&nbsp;<strong style={{margin:"auto"}}>{localStorage.getItem("restaurant-name")}</strong></div> 
+        <div>&nbsp;<strong style={{margin:"auto"}}>{localStorage.getItem("restaurant-name")}  
+        </strong>
+        <img src={orderselfLogo} alt="OrderSelf Logo" style={{ paddingLeft:"20px", width: "10%", height: "5%", alignItems:"center",  }} />
+        </div> 
         </Link>
         </Grid>
         
@@ -143,6 +147,9 @@ const Header = () => {
               <MenuItem onClick={handleCloseUserMenu}> <ExitToAppIcon></ExitToAppIcon>&nbsp;&nbsp;Logout</MenuItem>
             </Link>           
           </Menu>
+        </Grid>
+        <Grid item xs={1} md={1} style={{margin:"auto", textAlign:"center"}}>
+        
         </Grid>
       </Grid>
       
