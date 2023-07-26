@@ -225,6 +225,12 @@ export default function RestaurantOrders(props) {
     }
   }, [queryParams.get('merchantId')]);
 
+  // useEffect(() => {
+  //   if (queryParams.size > 0) {
+  //     verifySellerOnboardStatus();
+  //   }
+  // }, []);
+
   const verifySellerOnboardStatus = async () => {
     const merchantData = {
       merchantId: queryParams.get("merchantId"), // firebase restaurant info doc id or tracking id
