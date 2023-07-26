@@ -1,0 +1,24 @@
+.check-in-form{
+    /* width: "90vw",, , , ,, , ,  */
+    width: 90vw;
+    height: 75vh;
+    border: 1px solid gray;
+    border-Radius: 10px;
+    background-Color: white;
+    display:flex;
+    flex-Direction:column;
+    justify-Content:space-around;
+    align-Items:center;
+    padding: '24px';
+   }
+@media only screen and (min-width: 600px) {
+   .check-in-form{
+    width: 65vw;
+   }
+  }
+@media only screen and (min-width: 1000px) {
+    .check-in-form{
+     width: 30vw;
+     /* background-color: blue; */
+    }
+   }
