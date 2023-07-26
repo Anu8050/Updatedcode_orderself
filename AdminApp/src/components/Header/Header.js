@@ -89,11 +89,12 @@ const Header = () => {
          </Link>        
         </Grid>
       } 
-        <Grid item sm={10} md={10} style={{margin:"auto",display: 'flex', alignItems:"center"}}>
+        <Grid item sm={10} md={10} style={{margin:"auto",display: "flex", alignItems: "center", textAlign: "center"}}>
         <Link  title='OrderSelf'> 
-        <div>&nbsp;<strong style={{margin:"auto"}}>{localStorage.getItem("restaurant-name")}  
+        <div >&nbsp;<strong style={{margin:"auto"}}>{localStorage.getItem("restaurant-name")}  
         </strong>
-        <img src={orderselfLogo} alt="OrderSelf Logo" style={{ paddingLeft:"20px", width: "10%", height: "5%", alignItems:"center",  }} />
+        <img src={orderselfLogo} alt="OrderSelf Logo" 
+        style={{ maxWidth: '10%', maxHeight: '8%', }}/>
         </div> 
         </Link>
         </Grid>
