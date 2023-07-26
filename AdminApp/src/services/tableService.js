@@ -121,7 +121,8 @@ export const getCurrentOrders = async (tableNumber) => {
      
         querySnapshot.forEach((doc) => {
             const order = doc.data();
-            if (order.status !== "Completed") {
+            console.log(order,"orderdata")
+            if (order.status !== "Completed"  && order.status !== "Cancelled" ) {
               orders.push({ id: doc.id, ...order });
             }
         });

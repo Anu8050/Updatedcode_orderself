@@ -46,9 +46,9 @@ const ShowCurrentOrder = (props) => {
                 // console.log(todayDate)
                 // console.log('----');
                 const formattedOrderDate = format(dateObject, "yyyy-MM-dd");
-                console.log(formattedOrderDate,'OrderDate ')
+                // console.log(formattedOrderDate,'OrderDate ')
                 const formattedTodayDate = format(todayDate, "yyyy-MM-dd");
-                console.log(formattedTodayDate,'TodayDate')
+                // console.log(formattedTodayDate,'TodayDate')
                 // console.log('----');
 
                 if (formattedOrderDate === formattedTodayDate) 
@@ -67,12 +67,12 @@ const ShowCurrentOrder = (props) => {
             // }
             setTimeout(() => {
               setMyData(Object.values(orderedItems));
-              // console.log(myData,"mydata>0");
+              console.log(myData,"mydata>0");
               // console.log(props.tableNumber);
             }, 2000);
           } else {
             setMyData([]);
-            // console.log(myData,"<0");
+            console.log(myData,"<0");
             // console.log(props.tableNumber);
           }
           setTimeout(() => {
