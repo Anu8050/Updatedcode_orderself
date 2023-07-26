@@ -125,7 +125,7 @@ export const getCurrentOrders = async (tableNumber) => {
               orders.push({ id: doc.id, ...order });
             }
         });
-        console.log(orders);
+        // console.log(orders);
         return Promise.resolve(orders);
 
 

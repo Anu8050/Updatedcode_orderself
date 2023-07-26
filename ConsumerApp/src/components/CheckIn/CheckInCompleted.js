@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Typography,Box, Card, CardActions, CardContent, Paper  } from "@mui/material";
+import { Button, Typography, Box, Card, CardActions, CardContent, Paper  } from "@mui/material";
 import { useParams ,useNavigate} from "react-router";
 import orderselfLogo from "../../assets/images/orderself-logo.png";
 
@@ -51,15 +51,18 @@ export default function CheckInCompleted() {
                   You have just completed the check-in form
                 </Typography>
                 <Typography variant="h3" sx={{ m: 3 ,color:"rgba(65, 67, 69, 0.80)"}}>Before we start</Typography>
-                <Typography  sx={{ m: 1, fontSize:"14px", lineHeight:"100%", color:"rgba(65, 67, 69, 0.80)", textAlign:"left" }}>
-                  <ul>
-                  <li>You are responsible for your orders.</li><br/>
-                  <li>For every order, you will be asked whether the order was intended.</li><br/>
-                  <li>Please reach out to the porter for your queries.</li><br/>
-                  <li>If an order that is placed is in progress, no corrections will be possible.</li><br/>
-                  <li>All orders have to be paid by you.</li>
-                  </ul>
-                </Typography>
+                <Box sx={{ m: 1, fontSize: "14px", lineHeight: "100%", color: "rgba(65, 67, 69, 0.80)", textAlign: "left" }}>
+                  <div>
+                      <ul  >
+                      <li>You are responsible for your orders.</li><br/>
+                      <li>For every order, you will be asked whether the order was intended.</li><br/>
+                      <li>Please reach out to the porter for your queries.</li><br/>
+                      <li>If an order that is placed is in progress, no corrections will be possible.</li><br/>
+                      <li>All orders have to be paid by you.</li>
+                    </ul>
+                  </div>
+                </Box>
+
               </center>
             </CardContent>
             <CardActions>

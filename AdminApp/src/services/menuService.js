@@ -54,7 +54,7 @@ export const getMenuItem = async (menuId) => {
             return Promise.resolve(snap.data());
         }
         else {
-            console.log("No such document")
+            // console.log("No such document")
             return [];
         }
     }

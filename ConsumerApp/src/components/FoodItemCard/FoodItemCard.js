@@ -1,6 +1,4 @@
-import { ButtonGroup, CardActions, IconButton } from "@mui/material";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import { CardActions, Button, Box } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,17 +7,8 @@ import { useDispatch } from "react-redux";
 import ShowMoreText from "react-show-more-text";
 import NoFoodImage from "../../assets/images/no-food-image.png";
 import "./FoodItemCard.css";
-import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import {
-  addToCart,
-  addToCartWithTimeout,
-  decrementQuantity,
-  incrementQuantity,
-} from "../../redux/cartSlice";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import QuantityModifierButton from "../QuantityModifierButton";
+import {  addToCartWithTimeout } from "../../redux/cartSlice";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 function FoodCardImageContainer({ backgroundImageUrl }) {
@@ -37,7 +26,7 @@ const FoodItemCard = ({
   comment,
 }) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  // const cart = useSelector((state) => state.cart);
   const [cartItem, setCartItem] = useState({
     id: id,
     title: title,
