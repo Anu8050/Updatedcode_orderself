@@ -225,7 +225,9 @@ function Total() {
         onClose={handleClose}
       >
         <DialogTitle id="alert-dialog-title" style={{  padding: "1rem" }} >
-          <h2>Payment In Advance</h2>
+          <div>
+            <Typography variant="h2">Payment In Advance</Typography>
+          </div>
         </DialogTitle>
         <DialogContent style={{borderTop:"1px solid #fc8019",marginTop:"-1rem"}}>
           <p style={{ color: "gray" }}>Payment should be made in Advance. Once you have made the payment, kindly notify the porter. Upon confirmation, the porter will serve you the food</p>
