@@ -90,8 +90,8 @@ else{
             </Grid>
           </DialogTitle>
           <DialogContent
-            style={{ borderTop: "0.15em solid #FC8019" }}
-            PaperProps={{ sx: { height: "72%" } }}
+            // style={{ borderTop: "0.15em solid #FC8019" }}
+            // PaperProps={{ sx: { height: "72%" } }} Removed PaperProps Warning 
           >
             <Box fullWidth>
               <FormControl sx={{width:"80%",marginTop:"20px"}} variant="outlined">
