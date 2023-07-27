@@ -347,7 +347,7 @@ const ManageTables = () => {
                   }
                   return (
                     <Grid
-                      item sm="2" lg="1" key={doc.id} className="table-widgets"
+                      item sm={2} lg= {1} key={doc.id} className="table-widgets"
                     >
                       <div
                         className={"table-icon " + bgClass}
@@ -406,8 +406,8 @@ const ManageTables = () => {
                       return (
                         <Grid
                           item
-                          sm="2"
-                          lg="1"
+                          sm={2}
+                          lg={1}
                           key={doc.id}
                           className="table-widgets"
                         >
