@@ -179,7 +179,7 @@ const EmailLogin = ({ open, close, loginHandlerEmail }) => {
                                                 onChange={(e) => handlePassword(e)}
                                                 label="Password"
                                                 error={passwordErrorMessage}
-                                                helperText="Incorrect Email"
+                                                // helperText="Incorrect Email"
                                                 onKeyDown={handleLoginPress}
                                             />
                                         </FormControl>
