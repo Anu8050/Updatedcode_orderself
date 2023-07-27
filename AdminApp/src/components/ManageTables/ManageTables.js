@@ -56,6 +56,10 @@ const ManageTables = () => {
   const [propsMessage, setPropsMessage] = React.useState("");
   const [propsSeverityType, setPropsSeverityType] = React.useState("");
 
+  const [isAvailableDisabled, setIsAvailableDisabled] = useState(false);
+  const [isOccupiedDisabled, setIsOccupiedDisabled] = useState(false);
+  const [isReservedDisabled, setIsReservedDisabled] = useState(false);
+
 
   useEffect(() => {    
       var restaurantId = getRestaurantId();
@@ -121,6 +125,11 @@ const ManageTables = () => {
     setTableId(tblId);
     setTableNumber(tblNo);
     setAnchorEl(e.currentTarget);
+  
+    const clickedTable = tables.find((table) => table.id === tblId);
+    setIsAvailableDisabled(clickedTable.status.toLowerCase() === "available");
+    setIsOccupiedDisabled(clickedTable.status.toLowerCase() === "occupied");
+    setIsReservedDisabled(clickedTable.status.toLowerCase() === "reserved");
   };
   
 
@@ -531,9 +540,9 @@ const ManageTables = () => {
         {(tableStatus == "all" || tableStatus == "available" || tableStatus == "occupied" || tableStatus == "reserved" || tableStatus == "special") &&
           (
             <>
-              <MenuItem onClick={handleClose}>Occupied</MenuItem>
-              <MenuItem onClick={handleClose}>Available</MenuItem>
-              <MenuItem onClick={handleClose}>Reserved</MenuItem>
+              <MenuItem disabled={isOccupiedDisabled} onClick={handleClose} >Occupied</MenuItem>
+              <MenuItem disabled={isAvailableDisabled} onClick={handleClose} >Available</MenuItem>
+              <MenuItem disabled={isReservedDisabled} onClick={handleClose} >Reserved</MenuItem>
               <MenuItem onClick={printQRCode}>Print QR Code</MenuItem>
               <MenuItem onClick={() => OpenPopupAssignPorter()}> 
                 Assign Porters
