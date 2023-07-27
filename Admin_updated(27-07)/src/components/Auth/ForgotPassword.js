@@ -93,7 +93,7 @@ else{
             // style={{ borderTop: "0.15em solid #FC8019" }}
             // PaperProps={{ sx: { height: "72%" } }} Removed PaperProps Warning 
           >
-            <Box fullWidth>
+            <Box>
               <FormControl sx={{width:"80%",marginTop:"20px"}} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-email">
                  Email
