@@ -141,7 +141,8 @@ const EmailLogin = ({ open, close, loginHandlerEmail }) => {
                                         maxWidth: '100%',
                                     }}
                                 >
-                                    <Box fullWidth>
+                                    {/* <Box fullWidth> Removed fullwidth */}
+                                    <Box>
                                         <p>Email</p>
                                         <FormControl sx={{ width: '100%' }} variant="outlined">
                                             <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
@@ -151,7 +152,7 @@ const EmailLogin = ({ open, close, loginHandlerEmail }) => {
                                                 type={"email"}
                                                 label="Email"
                                                 onChange={(e) => handleEmail(e)}
-                                                helperText="Incorrect Email"
+                                                // helperText="Incorrect Email" //Removed helperText warning issue
                                             />
                                         </FormControl>
                                         {emailErrorMessage && <span style={{fontSize: "12px", color: "red"}}>{emailErrorMessage}</span>}
