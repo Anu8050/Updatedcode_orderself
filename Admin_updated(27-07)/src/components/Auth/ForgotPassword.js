@@ -104,7 +104,7 @@ else{
                   type={"email"}
                   label="Email"
                   onChange={(e) => handleEmail(e)}
-                  helperText="Incorrect Email"
+                  // helperText="Incorrect Email" removed helperText WarningError
                 />
                 {emailErrorMessage && <span style={{fontSize: "12px", color: "red"}}>{emailErrorMessage}</span>}
               </FormControl>
