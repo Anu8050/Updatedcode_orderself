@@ -111,27 +111,27 @@ const ManageMenuItems = () => {
   const columns = [
     {
       field: 'foodName',
-      headerName: <strong>Food</strong>,
+      headerName: 'Food', //chages made to clear GridColumnHeaderTitle warning
       width: 300,
     },
     {
       field: 'foodCategoryName',
-      headerName: <strong>Food Category</strong>,
+      headerName: 'Food Category',
       width: 150,
     },
     {
       field: 'foodDescription',
-      headerName: <strong>Food Description</strong>,
+      headerName: 'Food Description',
       width: 500,
     },
     {
       field: 'foodPrice',
-      headerName: <strong>Price</strong>,
+      headerName: 'Price',
       width: 100,
     },
     {
       field: 'actions',
-      headerName: <strong>Actions</strong>,
+      headerName: 'Actions',
       type: 'actions',
       // flex: 0.2,
       width:250,
